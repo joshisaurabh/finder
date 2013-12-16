@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @location.address %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @location.latitude %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @location.longitude %>
+</p>
+
+<h3>Map View </h3>
+<%= image_tag("http://maps.googleapis.com/maps/api/staticmap?center=#{@location.latitude},#{@location.longitude}&zoom=14&size=700x300&maptype=roadmap
+&markers=color:red%7Ccolor:red%7Clabel:C%7C#{@location.latitude},#{@location.longitude}&sensor=false")%>
+
+
+
+<h3>Street View </h3>
+<%= image_tag("http://maps.googleapis.com/maps/api/streetview?size=700x300&location=#{@location.latitude},#{@location.longitude}&fov=90&heading=235&pitch=10&sensor=false")%>
+
+<h3>Nearby Locations within 10 Kms</h3>
+<ul>
+<% for location in @location.nearbys(6.21371) %>
+<li><%= link_to location.address, location %> (<%= location.distance.round(2)  %> Kms)</li>
+<% end %>
+</ul>
+<%= link_to 'Edit', edit_location_path(@location) %> |
+<%= link_to "Destroy", @location, :confirm => 'Are you sure?', :method => :delete %> |
+<%= link_to 'View All', locations_path %> |
+
